@@ -36,3 +36,20 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-publish',)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('created_at',)
+
+    def __str__(self) -> str:
+        return f'Comment by {self.name} on {self.post}'
